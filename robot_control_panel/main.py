@@ -1,60 +1,68 @@
 import tkinter as tk
-import tkinter.filedialog
-import cv2
-import PIL.Image
-import PIL.ImageTk
-import PIL.ImageFilter
-import numpy as np
-import random
-robot_ip_adress = "10.10.10.10"
+from pyniryo2 import *
+from video_capture import *
 
-class RobotControlPanel(tk.Tk):
-    def __init__(self, window, window_title):
-        self.window = window
-        self.window.title(window_title)
+root = tk.Tk()
+root.geometry("1400x900")
 
-        #connect to robot and calibrate
-        self.robot = NiryoRobot(robot_ip_adress)
-        self.create_widgets()
-    
-    def create_widgets(self):
-        # Create frame for buttons
-        buttons_frame = ttk.Frame(self)
-        buttons_frame.grid(row=0, column=0, padx=10, pady=10)
+def move_up():
+    print("Moving up")
 
-        # Create buttons
-        self.forward_button = ttk.Button(buttons_frame, text="Forward", command=self.move_forward)
-        self.forward_button.grid(row=0, column=1)
-        self.left_button = ttk.Button(buttons_frame, text="Left", command=self.move_left)
-        self.left_button.grid(row=1, column=0)
-        self.stop_button = ttk.Button(buttons_frame, text="Stop", command=self.stop)
-        self.stop_button.grid(row=1, column=1)
-        self.right_button = ttk.Button(buttons_frame, text="Right", command=self.move_right)
-        self.right_button.grid(row=1, column=2)
-        self.backward_button = ttk.Button(buttons_frame, text="Backward", command=self.move_backward)
-        self.backward_button.grid(row=2, column=1)
+def move_down():
+    print("Moving down")
 
-    def move_forward(self):
-        self.robot.send_command("F")
-        
-    def move_left(self):
-        self.robot.send_command("L")
-        
-    def stop(self):
-        self.robot.send_command("S")
+def move_left():
+    print("Moving left")
 
-    def move_right(self):
-        self.robot.send_command("R")
+def move_right():
+    print("Moving right")
 
-    def move_backward(self):
-        self.robot.send_command("B")
-        
-    def close_conn(self):
-        self.robot.close()
-        self.destroy()
+def calibrate_motors():
+    if (arm.need_calibration()):
+        robot.arm.calibrate_auto()
+    else:
+        robot.arm.request_new_calibration()
 
-if __name__ == "__main__":
-    control_panel = RobotControlPanel(tk.Tk(), 'Robot Control Panel')
-    control_panel.protocol("WM_DELETE_WINDOW", control_panel.close_conn)
-    control_panel.mainloop()
+def home_pose():
+    robot.move_to_homepose()
+
+
+def connect_to_robot():
+    robot=NiryoRobot("10.10.10.10")
+
+def select_video():
+        # create instance from video capture
+        video_source = 0
+        vid = VideoCap(video_source, root)
+        vid.update()
+
+"""
+up_button = tk.Button(root, text="Up", height=10, width=20, command=move_up)
+up_button.grid(row=0, column=0)
+
+down_button = tk.Button(root, text="Down",height=10, width=20, command=move_down)
+down_button.grid(row=0, column=1)
+
+left_button = tk.Button(root, text="Left",height=10, width=20, command=move_left)
+left_button.grid(row=0, column=2)
+
+right_button = tk.Button(root, text="Right",height=10, width=20, command=move_right)
+right_button.grid(row=0, column=3)
+"""
+camera_button = tk.Button(root, text="Launch camera stream",height=10, width=20, command=select_video)
+camera_button.grid(row=0, column=0)
+
+calibrate_button = tk.Button(root, text="Calibrate",height=10, width=20, command=calibrate_motors)
+calibrate_button.grid(row=0, column=1)
+
+homepose_button = tk.Button(root, text="Homepose",height=10, width=20, command=home_pose)
+homepose_button.grid(row=0, column=2)
+
+connect_button = tk.Button(root, text="Connect to robot",height=10, width=20, command=connect_to_robot)
+connect_button.grid(row=0, column=3)
+
+
+
+root.mainloop()
+
 
