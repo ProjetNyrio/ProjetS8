@@ -1,6 +1,9 @@
 import tkinter as tk
 from pyniryo2 import *
 from video_capture import *
+from tkinter import *
+from tkinter import messagebox
+
 
 root = tk.Tk()
 root.geometry("1400x900")
@@ -53,23 +56,36 @@ left_button.grid(row=0, column=2)
 right_button = tk.Button(root, text="Right",height=10, width=20, command=move_right)
 right_button.grid(row=0, column=3)
 """
-Title1= tk.Label(root, text="Connection and calibration functions")
-Title1.grid(row=0, column=0)
+Title1= tk.Label(root, text="Connection et calibrage")
+Title1.grid(row=0, column=0, columnspan=3, sticky=tk.W)
+Title1.configure(font=("Helvetica", 18, "bold"))
 
-camera_button = tk.Button(root, text="Launch camera stream",height=10, width=20, command=select_video)
-camera_button.grid(row=1, column=3)
+blank=tk.Label(root, text="   \n")
+blank.grid(row=1, column=0)
 
-calibrate_button = tk.Button(root, text="Calibrate",height=10, width=20, command=calibrate_motors)
-calibrate_button.grid(row=1, column=1)
 
-homepose_button = tk.Button(root, text="Homepose",height=10, width=20, command=home_pose)
-homepose_button.grid(row=1, column=2)
+#camera_button = tk.Button(root, text="Launch camera stream",height=10, width=16, command=select_video)
+#camera_button.grid(row=2, column=3, sticky=tk.W)
 
-connect_button = tk.Button(root, text="Connect to robot",height=10, width=20, command=connect_to_robot)
-connect_button.grid(row=1, column=0)
+calibrate_button = tk.Button(root, text="Calibrate",height=10, width=16, command=calibrate_motors)
+calibrate_button.grid(row=2, column=1, sticky=tk.W)
 
-Title2= tk.Label(root, text="Control robot's arm", anchor=tk.E)
-Title2.grid(row=2, column=0)
+homepose_button = tk.Button(root, text="Homepose",height=10, width=16, command=home_pose)
+homepose_button.grid(row=2, column=2, sticky=tk.W)
+
+connect_button = tk.Button(root, text="Connect to robot",height=10, width=16, command=connect_to_robot)
+connect_button.grid(row=2, column=0, sticky=tk.W)
+
+blank2=tk.Label(root, text="   \n")
+blank2.grid(row=3, column=0)
+
+
+Title2= tk.Label(root, text="Contrôle du bras")
+Title2.grid(row=4, column=0, columnspan=2, sticky=tk.W)
+Title2.configure(font=("Helvetica", 18, "bold"))
+
+blank3=tk.Label(root, text="   \n")
+blank3.grid(row=5, column=0)
 
 #create a stringvar for each joint of the robot's arm
 
@@ -80,28 +96,44 @@ j4=tk.StringVar()
 j5=tk.StringVar()
 j6=tk.StringVar()
 
-tk.Label(root, text="j1").grid(row=3, column=0)
-tk.Label(root, text="j2").grid(row=3, column=1)
-tk.Label(root, text="j3").grid(row=3, column=2)
-tk.Label(root, text="j4").grid(row=3, column=3)
-tk.Label(root, text="j5").grid(row=3, column=4)
-tk.Label(root, text="j6").grid(row=3, column=5)
+tk.Label(root, text="j1").grid(row=6, column=0)
+tk.Label(root, text="j2").grid(row=6, column=1)
+tk.Label(root, text="j3").grid(row=6, column=2)
+tk.Label(root, text="j4").grid(row=6, column=3)
+tk.Label(root, text="j5").grid(row=6, column=4)
+tk.Label(root, text="j6").grid(row=6, column=5)
 
-tk.Entry(root, textvariable=j1).grid(row=4, column=0)
-tk.Entry(root, textvariable=j2).grid(row=4, column=1)
-tk.Entry(root, textvariable=j3).grid(row=4, column=2)
-tk.Entry(root, textvariable=j4).grid(row=4, column=3)
-tk.Entry(root, textvariable=j5).grid(row=4, column=4)
-tk.Entry(root, textvariable=j6).grid(row=4, column=5)
+tk.Entry(root, textvariable=j1).grid(row=7, column=0, sticky=tk.W)
+tk.Entry(root, textvariable=j2).grid(row=7, column=1, sticky=tk.W)
+tk.Entry(root, textvariable=j3).grid(row=7, column=2, sticky=tk.W)
+tk.Entry(root, textvariable=j4).grid(row=7, column=3, sticky=tk.W)
+tk.Entry(root, textvariable=j5).grid(row=7, column=4, sticky=tk.W)
+tk.Entry(root, textvariable=j6).grid(row=7, column=5, sticky=tk.W)
 
 def generate_command():
-    command=[float(j1.get()),float(j2.get()),float(j3.get()),float(j4.get()),float(j5.get()),float(j6.get())]
-    for i in range(len(command)): 
-        print(command[i])
+    try :
+        command=[float(j1.get()),float(j2.get()),float(j3.get()),float(j4.get()),float(j5.get()),float(j6.get())]
+    except :
+        messagebox.showerror('Error', 'You are sending an incomplete command, input 0 for the joints you dont plan to move')
+        return
+    try :
+        robot.arm.move_joints(command)
+    except : 
+        messagebox.showerror('Error', 'No robot connection established')
 
-send_command_button = tk.Button(root, text="Send command",height=5, width=5, command=generate_command)
-send_command_button.grid(row=4, column=6)
+send_command_button = tk.Button(root, text="Send command",height=2, width=10, command=generate_command)
+send_command_button.grid(row=6, rowspan=2,  column=6)
 
+blank4=tk.Label(root, text="   \n")
+blank4.grid(row=8, column=0)
+
+
+Title3= tk.Label(root, text="Utilisation du gripper et de la caméra")
+Title3.grid(row=9, column=0, columnspan=3, sticky=tk.W)
+Title3.configure(font=("Helvetica", 18, "bold"))
+
+blank5=tk.Label(root, text="   \n")
+blank5.grid(row=10, column=0)
 
 
 root.mainloop()
