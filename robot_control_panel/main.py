@@ -6,7 +6,7 @@ from tkinter import messagebox
 
 
 root = tk.Tk()
-root.geometry("1400x900")
+root.geometry("1300x780")
 
 def move_up():
     print("Moving up")
@@ -42,6 +42,12 @@ def select_video():
         video_source = 0
         vid = VideoCap(video_source, root)
         vid.update()
+
+def open_gripper():
+    print("open gripper")
+
+def close_gripper():
+    print("closed gripper")
 
 """
 j1_button = tk.Button(root, text="Up", height=10, width=20, command=move_up)
@@ -99,16 +105,16 @@ j6=tk.StringVar()
 tk.Label(root, text="j1").grid(row=6, column=0)
 tk.Label(root, text="j2").grid(row=6, column=1)
 tk.Label(root, text="j3").grid(row=6, column=2)
-tk.Label(root, text="j4").grid(row=6, column=3)
-tk.Label(root, text="j5").grid(row=6, column=4)
-tk.Label(root, text="j6").grid(row=6, column=5)
+tk.Label(root, text="j4").grid(row=8, column=0)
+tk.Label(root, text="j5").grid(row=8, column=1)
+tk.Label(root, text="j6").grid(row=8, column=2)
 
 tk.Entry(root, textvariable=j1).grid(row=7, column=0, sticky=tk.W)
 tk.Entry(root, textvariable=j2).grid(row=7, column=1, sticky=tk.W)
 tk.Entry(root, textvariable=j3).grid(row=7, column=2, sticky=tk.W)
-tk.Entry(root, textvariable=j4).grid(row=7, column=3, sticky=tk.W)
-tk.Entry(root, textvariable=j5).grid(row=7, column=4, sticky=tk.W)
-tk.Entry(root, textvariable=j6).grid(row=7, column=5, sticky=tk.W)
+tk.Entry(root, textvariable=j4).grid(row=9, column=0, sticky=tk.W)
+tk.Entry(root, textvariable=j5).grid(row=9, column=1, sticky=tk.W)
+tk.Entry(root, textvariable=j6).grid(row=9, column=2, sticky=tk.W)
 
 def generate_command():
     try :
@@ -121,20 +127,32 @@ def generate_command():
     except : 
         messagebox.showerror('Error', 'No robot connection established')
 
-send_command_button = tk.Button(root, text="Send command",height=2, width=10, command=generate_command)
-send_command_button.grid(row=6, rowspan=2,  column=6)
+send_command_button = tk.Button(root, text="Send command",height=4, width=10, command=generate_command)
+send_command_button.grid(row=6, rowspan=4,  column=4, sticky=tk.S)
 
 blank4=tk.Label(root, text="   \n")
-blank4.grid(row=8, column=0)
+blank4.grid(row=10, column=0)
 
 
-Title3= tk.Label(root, text="Utilisation du gripper et de la caméra")
-Title3.grid(row=9, column=0, columnspan=3, sticky=tk.W)
+Title3= tk.Label(root, text="Utilisation du gripper")
+Title3.grid(row=11, column=0, columnspan=3, sticky=tk.W)
 Title3.configure(font=("Helvetica", 18, "bold"))
 
 blank5=tk.Label(root, text="   \n")
-blank5.grid(row=10, column=0)
+blank5.grid(row=12, column=0)
 
+open_button = tk.Button(root, text="Open gripper",height=10, width=16, command=open_gripper)
+open_button.grid(row=13, column=0, sticky=tk.W)
+
+close_button = tk.Button(root, text="Close gripper",height=10, width=16, command=close_gripper)
+close_button.grid(row=13, column=1, sticky=tk.W)
+
+blank6=tk.Label(root, text="\t")
+blank6.grid(row=0, column=6)
+
+Title4= tk.Label(root, text="Caméra")
+Title4.grid(row=0, column=7, columnspan=3, sticky=tk.W)
+Title4.configure(font=("Helvetica", 18, "bold"))
 
 root.mainloop()
 
