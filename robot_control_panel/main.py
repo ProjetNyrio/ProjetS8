@@ -3,39 +3,28 @@ from pyniryo2 import *
 from video_capture import *
 from tkinter import *
 from tkinter import messagebox
-
+from PIL import Image
 
 root = tk.Tk()
 root.geometry("1300x780")
-
-def move_up():
-    print("Moving up")
-
-def move_down():
-    print("Moving down")
-
-def move_left():
-    print("Moving left")
-
-def move_right():
-    print("Moving right")
+robot=None
 
 def calibrate_motors():
-    if (arm.need_calibration()):
-        robot.arm.calibrate_auto()
-    else:
-        robot.arm.request_new_calibration()
+    robot.arm.calibrate_auto()
 
 def home_pose():
-    robot.move_to_homepose()
-
+    robot.arm.move_to_home_pose()
 
 def connect_to_robot():
+    global robot
     try :
         robot=NiryoRobot("10.10.10.10")
         connect_button.config(bg='green')
     except :
         connect_button.config(bg='red')
+
+def update_tools():
+    robot.tool.update_tool()
 
 def select_video():
         # create instance from video capture
@@ -43,11 +32,19 @@ def select_video():
         vid = VideoCap(video_source, root)
         vid.update()
 
-def open_gripper():
-    print("open gripper")
+def grasp_gripper():
+    robot.tool.grasp_with_tool()
 
-def close_gripper():
-    print("closed gripper")
+def release_gripper():
+    robot.tool.release_with_tool()
+
+
+def get_img():
+    img_compressed=robot.get_img_compressed()
+    #img_array = uncompress_image(img_compressed)
+    #img_jpg = Image.fromarray(img_array)
+    #img_array.save('~/images/image_niryo.jpg')
+
 
 """
 j1_button = tk.Button(root, text="Up", height=10, width=20, command=move_up)
@@ -81,6 +78,10 @@ homepose_button.grid(row=2, column=2, sticky=tk.W)
 
 connect_button = tk.Button(root, text="Connect to robot",height=10, width=16, command=connect_to_robot)
 connect_button.grid(row=2, column=0, sticky=tk.W)
+
+update_tools_button = tk.Button(root, text="Update tools",height=10, width=16, command=update_tools)
+update_tools_button.grid(row=2, column=3, sticky=tk.W)
+
 
 blank2=tk.Label(root, text="   \n")
 blank2.grid(row=3, column=0)
@@ -128,7 +129,7 @@ def generate_command():
         messagebox.showerror('Error', 'No robot connection established')
 
 send_command_button = tk.Button(root, text="Send command",height=4, width=10, command=generate_command)
-send_command_button.grid(row=6, rowspan=4,  column=4, sticky=tk.S)
+send_command_button.grid(row=6, rowspan=4,  column=3, sticky=tk.S)
 
 blank4=tk.Label(root, text="   \n")
 blank4.grid(row=10, column=0)
@@ -141,11 +142,11 @@ Title3.configure(font=("Helvetica", 18, "bold"))
 blank5=tk.Label(root, text="   \n")
 blank5.grid(row=12, column=0)
 
-open_button = tk.Button(root, text="Open gripper",height=10, width=16, command=open_gripper)
-open_button.grid(row=13, column=0, sticky=tk.W)
+grasp_button = tk.Button(root, text="Grasp gripper",height=10, width=16, command=grasp_gripper)
+grasp_button.grid(row=13, column=0, sticky=tk.W)
 
-close_button = tk.Button(root, text="Close gripper",height=10, width=16, command=close_gripper)
-close_button.grid(row=13, column=1, sticky=tk.W)
+release_button = tk.Button(root, text="Release gripper",height=10, width=16, command=release_gripper)
+release_button.grid(row=13, column=1, sticky=tk.W)
 
 blank6=tk.Label(root, text="\t")
 blank6.grid(row=0, column=6)
@@ -153,6 +154,16 @@ blank6.grid(row=0, column=6)
 Title4= tk.Label(root, text="Caméra")
 Title4.grid(row=0, column=7, columnspan=3, sticky=tk.W)
 Title4.configure(font=("Helvetica", 18, "bold"))
+
+
+blank7=tk.Label(root, text="   \n")
+blank7.grid(row=1, column=0)
+
+
+open_camera = tk.Button(root, text="Open camera stream",height=10, width=16, command=get_img)
+open_camera.grid(row=2, column=7, sticky=tk.W)
+
+
 
 root.mainloop()
 
