@@ -32,18 +32,25 @@ def select_video():
         vid = VideoCap(video_source, root)
         vid.update()
 
+#A ESSAYER, peut etre meme ajouter un premier appel avant, doc pas claire
+def grasp_callback(_msg)
+    print("Grasped") 
+
+def release_callback(_msg)
+    print("Released") 
+
 def grasp_gripper():
-    robot.tool.grasp_with_tool()
+    robot.tool.grasp_with_tool(grasp_callback)
 
 def release_gripper():
-    robot.tool.release_with_tool()
+    robot.tool.release_with_tool(release_callback)
 
 
 def get_img():
-    img_compressed=robot.get_img_compressed()
-    #img_array = uncompress_image(img_compressed)
-    #img_jpg = Image.fromarray(img_array)
-    #img_array.save('~/images/image_niryo.jpg')
+    img_compressed=vision.get_img_compressed()
+    camera_info = vision.get_camera_intrinsics()
+    img = pyniryo.uncompress_image(img_compressed)
+    img = pyniryo.undistort_image(img, camera_info.intrinsics, camera_info.distortion)
 
 
 """
