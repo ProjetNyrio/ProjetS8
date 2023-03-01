@@ -1,4 +1,4 @@
-import os.system
+import os
 import tkinter as tk
 from pyniryo import *
 from video_capture import *
