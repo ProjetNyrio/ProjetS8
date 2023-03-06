@@ -1,13 +1,14 @@
+import time
 import os
 import tkinter as tk
+from video_label import *
 from pyniryo import *
-from video_capture import *
 from tkinter import ttk
 from tkinter import messagebox
-from PIL import Image
+from PIL import ImageTk, Image
 
-root = tkinter.Tk()
-root.geometry("1300x780")
+root = tk.Tk()
+root.geometry("1100x780")
 root.title("Robot control panel")
 style = ttk.Style(root)
 root.tk.call('source', '../ttkthemes/Azure-ttk-theme/azure.tcl')
@@ -32,13 +33,6 @@ def connect_to_robot():
 def update_tools():
     robot.update_tool()
 
-def select_video():
-        # create instance from video capture
-        video_source = 0
-        vid = VideoCap(video_source, root)
-        vid.update()
-
-#A ESSAYER, peut etre meme ajouter un premier appel avant, doc pas claire
 def grasp_callback(_msg):
     print("Grasped") 
 
@@ -52,7 +46,10 @@ def release_gripper():
     robot.release_with_tool()
 
 def get_img():
-    os.popen("python3 ROS.py")
+    video_label1.__start_stream__()
+
+def end_stream():
+    video_label1.__stop_stream__()
 
 Title1= ttk.Label(root, text="Connection et calibrage")
 Title1.grid(row=0, column=0, columnspan=3, sticky=tk.W)
@@ -162,6 +159,14 @@ blank7.grid(row=1, column=0)
 open_camera = ttk.Button(root, text="Open camera stream", command=get_img)
 open_camera.grid(row=2, column=7, sticky=tk.W)
 
+video_frame = ttk.Frame(root, height=400, width=300)
+video_label1 = video_label(video_frame)
+video_label1.label.pack()
+
+end_stream_button = ttk.Button(root, text="End camera stream", command=end_stream)
+end_stream_button.grid(row=11, column=7, sticky=tk.W)
+
+video_frame.grid(row=3, column=7, rowspan=8)
 
 root.mainloop()
 
