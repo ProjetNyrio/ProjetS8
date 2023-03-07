@@ -5,10 +5,11 @@ from video_label import *
 from pyniryo import *
 from tkinter import ttk
 from tkinter import messagebox
+from tkinter import filedialog
 from PIL import ImageTk, Image
 
 root = tk.Tk()
-root.geometry("1100x780")
+root.geometry("1120x600")
 root.title("Robot control panel")
 style = ttk.Style(root)
 root.tk.call('source', '../ttkthemes/Azure-ttk-theme/azure.tcl')
@@ -48,6 +49,19 @@ def release_gripper():
 def get_img():
     video_label1.__start_stream__()
 
+def capture_img():
+    filename = filedialog.asksaveasfile(mode='w', defaultextension=".jpg", filetypes=[("All files", ".")])
+    if not filename:
+        return
+    video_label1.image.save(filename)
+
+def capture_img2():
+    file = filedialog.asksaveasfile(mode='w', defaultextension=".png", filetypes=(("PNG file", "*.png"),("All Files", "*.*") ))
+    if file:
+        abs_path = os.path.abspath(file.name)
+        out = Image.alpha_composite(im, txt)
+        out.save(abs_path) # saves the image to the input file name
+
 def end_stream():
     video_label1.__stop_stream__()
 
@@ -63,21 +77,17 @@ frame1 = ttk.Frame(root)
 close_connection_button = ttk.Button(frame1, text="Close connection", command=close_connection)
 close_connection_button.grid(row=0, column=2, ipadx=20, ipady=15)
 
-homepose_button = ttk.Button(frame1, text="Homepose", command=home_pose)
-homepose_button.grid(row=0, column=1, ipadx=20, ipady=15)
+homepose_button = ttk.Button(frame1, text="  Homepose  ", command=home_pose)
+homepose_button.grid(row=0, column=1, ipadx=30, ipady=15)
 
 connect_button = ttk.Button(frame1, text="Connect to robot",style="Accent.TButton", command=connect_to_robot)
 connect_button.grid(row=0, column=0, ipadx=20, ipady=15)
 
 
-learning_mode_button = ttk.Button(frame1, text="Learning mode", command=learning_mode)
-learning_mode_button.grid(row=0, column=3, ipadx=20, ipady=15)
+learning_mode_button = ttk.Button(frame1, text=" Learning mode ", command=learning_mode)
+learning_mode_button.grid(row=0, column=3, ipadx=22, ipady=15)
 
 frame1.grid(row=2, column=0, columnspan=8, sticky=tk.W)
-
-update_tools_button = ttk.Button(root, text="Update tools", command=update_tools)
-update_tools_button.grid(row=13, column=0, ipadx=20, ipady=15)
-
 
 blank2=ttk.Label(root, text="   \n")
 blank2.grid(row=3, column=0)
@@ -125,24 +135,30 @@ def generate_command():
         messagebox.showerror('Error', 'No robot connection established')
 
 send_command_button = ttk.Button(root, text="Send command", command=generate_command)
-send_command_button.grid(row=6, rowspan=4,  column=3, ipadx=4, ipady=10, sticky=tk.S)
+send_command_button.grid(row=6, rowspan=4,  column=3, ipadx=18, ipady=12, sticky="sw")
 
 blank4=ttk.Label(root, text="   \n")
 blank4.grid(row=10, column=0)
 
-
-Title3= ttk.Label(root, text="Utilisation du gripper")
-Title3.grid(row=11, column=0, columnspan=3, sticky=tk.W)
+tools_frame=ttk.Frame(root)
+Title3= ttk.Label(tools_frame, text="Utilisation du gripper")
+Title3.grid(row=0, column=0, columnspan=3, sticky=tk.W)
 Title3.configure(font=("Helvetica", 18, "bold"))
 
-blank5=ttk.Label(root, text="   \n")
-blank5.grid(row=12, column=0)
+blank5=ttk.Label(tools_frame, text="   \n")
+blank5.grid(row=1, column=0)
 
-grasp_button = ttk.Button(root, text="Grasp gripper", command=grasp_gripper)
-grasp_button.grid(row=13, column=1, ipadx=20, ipady=15, sticky=tk.W)
+grasp_button = ttk.Button(tools_frame, text=" Grasp gripper ",command=grasp_gripper)
+grasp_button.grid(row=2, column=1,rowspan=2, ipadx=26, ipady=15, sticky="nsew")
 
-release_button = ttk.Button(root, text="Release gripper", command=release_gripper)
-release_button.grid(row=13, column=2, ipadx=20, ipady=15,  sticky=tk.W)
+release_button = ttk.Button(tools_frame, text="Release gripper", command=release_gripper)
+release_button.grid(row=2, column=2,rowspan=2, ipadx=24, ipady=15, sticky="nsew")
+
+update_tools_button = ttk.Button(tools_frame, text=" Update tools ", command=update_tools)
+update_tools_button.grid(row=2, column=0,rowspan=2, ipadx=28, ipady=15, sticky="nsew")
+
+tools_frame.grid(row=11, column=0, columnspan=4, rowspan=5, sticky=tk.W)
+
 
 blank6=ttk.Label(root, text="\t")
 blank6.grid(row=0, column=6)
@@ -157,16 +173,18 @@ blank7.grid(row=1, column=0)
 
 
 open_camera = ttk.Button(root, text="Open camera stream", command=get_img)
-open_camera.grid(row=2, column=7, sticky=tk.W)
+open_camera.grid(row=2, column=7, ipadx=10, ipady=10, sticky=tk.W)
 
-video_frame = ttk.Frame(root, height=400, width=300)
+video_frame = ttk.Frame(root, height=300, width=300)
 video_label1 = video_label(video_frame)
 video_label1.label.pack()
 
 end_stream_button = ttk.Button(root, text="End camera stream", command=end_stream)
-end_stream_button.grid(row=11, column=7, sticky=tk.W)
+end_stream_button.grid(row=11, column=7, ipadx=10, ipady=10, sticky=tk.W)
 
-video_frame.grid(row=3, column=7, rowspan=8)
+capture_image_button = ttk.Button(root, text="Enregistrer l'image", command=capture_img2)
+capture_image_button.grid(row=11, column=8, ipadx=10, ipady=10, sticky=tk.W) 
+video_frame.grid(row=3, column=7, rowspan=8, columnspan=2, sticky=tk.W)
 
 root.mainloop()
 

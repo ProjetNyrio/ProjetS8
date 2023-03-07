@@ -37,10 +37,12 @@ class video_label(tk.Label):
             im1=ImageTk.PhotoImage(image1)
             im2=ImageTk.PhotoImage(image2)
             while (self.stream_on == True):
+                self.image=img1
                 self.label.configure(image=im1)
-                time.sleep(0.1)
+                time.sleep(0.3)
+                self.image=img2
                 self.label.configure(image=im2)
-                time.sleep(0.1)
+                time.sleep(0.3)
 
         self.stream_thread = threading.Thread(target=test_thread_function)
         self.stream_thread.start()
