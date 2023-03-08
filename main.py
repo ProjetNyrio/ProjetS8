@@ -4,6 +4,9 @@ from tkinter import messagebox, filedialog
 import tkinter as tk
 from tkinter.filedialog import asksaveasfilename, askopenfilename
 import subprocess
+from pyniryo import *
+from pyniryo2 import *
+import imageio
 import os
 import io
 import tkinter
@@ -79,6 +82,20 @@ def select_image():
     before_label.image = before_image
     before_label.grid(row=0, column=0)
     before_label.place(x=850, y=400, width=400, height=300)
+def Capture():
+    ros_instance = NiryoRos("10.10.10.10")  # Hotspot
+    vision_instance = Vision(ros_instance)
+    import pyniryo
+    img_c = vision_instance.get_img_compressed()
+    img_raw = pyniryo.uncompress_image(img_c)
+    imageio.imwrite('C:/Users/halaoui/Downloads/aftr.png', img_raw)
+    im_cv = cv2.imread('C:/Users/halaoui/Downloads/aftr.png')
+    image_rgb = cv2.cvtColor(im_cv, cv2.COLOR_BGR2RGB)
+    cv2.imwrite('C:/Users/halaoui/Downloads/afeetr.png', image_rgb)
+    file_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG", "*.png"), ("All Files", "*.*")])
+    Image.open("C:/Users/halaoui/Downloads/afeetr.png").save(file_path)
+    ros_instance.close()
+
 
 
 
@@ -106,6 +123,7 @@ Save=PhotoImage(file="save.png")
 Run=PhotoImage(file="run.png")
 saveimage=PhotoImage(file="m_download.png")
 selectimage=PhotoImage(file="m_main.png")
+selectimagee=PhotoImage(file="ImageC.png")
 
 
 
@@ -114,5 +132,6 @@ Button(root,image=Save,bg="#323846",bd=0,command=save).place(x=30,y=145)
 Button(root,image=Run,bg="#323846",bd=0,command=run).place(x=30,y=260)
 Button(root,image=saveimage,bg="#323846",bd=0,command=save_image).place(x=30,y=380)
 Button(root,image=selectimage,bg="#323846",bd=0,command=select_image).place(x=30,y=500)
+Button(root,image=selectimagee,bg="#323846",bd=0,command=Capture).place(x=45,y=650)
 
 root.mainloop()
