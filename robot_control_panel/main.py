@@ -1,7 +1,7 @@
 import time
 import os
 import tkinter as tk
-from video_label import *
+from video_canvas import *
 from pyniryo import *
 from tkinter import ttk
 from tkinter import messagebox
