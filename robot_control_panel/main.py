@@ -50,17 +50,10 @@ def get_img():
     video_label1.__start_stream__()
 
 def capture_img():
-    filename = filedialog.asksaveasfile(mode='w', defaultextension=".jpg", filetypes=[("All files", ".")])
+    filename = filedialog.asksaveasfile(mode='w', defaultextension=".jpg", filetypes=[("All files", "*.*")])
     if not filename:
         return
     video_label1.image.save(filename)
-
-def capture_img2():
-    file = filedialog.asksaveasfile(mode='w', defaultextension=".png", filetypes=(("PNG file", "*.png"),("All Files", "*.*") ))
-    if file:
-        abs_path = os.path.abspath(file.name)
-        out = Image.alpha_composite(im, txt)
-        out.save(abs_path) # saves the image to the input file name
 
 def end_stream():
     video_label1.__stop_stream__()
@@ -182,7 +175,7 @@ video_label1.label.pack()
 end_stream_button = ttk.Button(root, text="End camera stream", command=end_stream)
 end_stream_button.grid(row=11, column=7, ipadx=10, ipady=10, sticky=tk.W)
 
-capture_image_button = ttk.Button(root, text="Enregistrer l'image", command=capture_img2)
+capture_image_button = ttk.Button(root, text="Enregistrer l'image", command=capture_img)
 capture_image_button.grid(row=11, column=8, ipadx=10, ipady=10, sticky=tk.W) 
 video_frame.grid(row=3, column=7, rowspan=8, columnspan=2, sticky=tk.W)
 

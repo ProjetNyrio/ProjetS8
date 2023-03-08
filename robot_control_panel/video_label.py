@@ -17,8 +17,8 @@ class video_label(tk.Label):
         super().__init__(parent)
 
     def __start_stream__(self):
-        #self.ros_instance = NiryoRos("10.10.10.10") # Hotspot
-        #self.vision_instance = Vision(ros_instance)
+        self.ros_instance = NiryoRos("10.10.10.10") # Hotspot
+        self.vision_instance = Vision(ros_instance)
         self.stream_on = True
 
         def thread_function():
@@ -26,7 +26,10 @@ class video_label(tk.Label):
             while (self.stream_on == True):
                 img_compressed = vision_instance.get_img_compressed()
                 img_raw=pyniryo.uncompress_image(img_c)
-                #CONVERT TO PIL IMG
+                img= img_raw.resize((300,300))
+                photo_img=ImageTk.PhotoImage(img)
+                self.img=img
+                self.label.configure(image=photo_img)
                 time.sleep(0.03)
 
         def test_thread_function():
@@ -49,7 +52,7 @@ class video_label(tk.Label):
 
     def __stop_stream__(self):
         self.stream_on=False
-        #ros_instance.close()
+        ros_instance.close()
 
 
 
