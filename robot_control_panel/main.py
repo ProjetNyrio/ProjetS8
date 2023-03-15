@@ -1,7 +1,7 @@
 import time
 import os
 import tkinter as tk
-from video_canvas import *
+from clean_video_canvas import *
 from pyniryo import *
 from tkinter import ttk
 from tkinter import messagebox
@@ -16,6 +16,7 @@ root.tk.call('source', '../ttkthemes/Azure-ttk-theme/azure.tcl')
 root.tk.call('set_theme', 'dark')
 global robot
 robot=None
+root.video_canvas1=None
 
 def close_connection():
     robot.close_connection()
@@ -47,16 +48,25 @@ def release_gripper():
     robot.release_with_tool()
 
 def get_img():
-    video_label1.__start_stream__()
+    if (root.video_canvas1 != None):
+        root.video_canvas1.stream_on = True
+    else :
+        root.video_canvas1 = clean_video_canvas(video_frame)
 
 def capture_img():
     filename = filedialog.asksaveasfile(mode='w', defaultextension=".jpg", filetypes=[("All files", "*.*")])
     if not filename:
         return
-    video_label1.image.save(filename)
+    video_canvas1.image.save(filename)
 
 def end_stream():
-    video_label1.__stop_stream__()
+    root.video_canvas1.__stop_stream__()
+
+def window_closing():
+    if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        if (root.video_canvas1 != None):
+            root.video_canvas1.ros_instance.close()
+        root.destroy()
 
 Title1= ttk.Label(root, text="Connection et calibrage")
 Title1.grid(row=0, column=0, columnspan=3, sticky=tk.W)
@@ -169,8 +179,6 @@ open_camera = ttk.Button(root, text="Open camera stream", command=get_img)
 open_camera.grid(row=2, column=7, ipadx=10, ipady=10, sticky=tk.W)
 
 video_frame = ttk.Frame(root, height=300, width=300)
-video_label1 = video_label(video_frame)
-video_label1.label.pack()
 
 end_stream_button = ttk.Button(root, text="End camera stream", command=end_stream)
 end_stream_button.grid(row=11, column=7, ipadx=10, ipady=10, sticky=tk.W)
@@ -179,6 +187,7 @@ capture_image_button = ttk.Button(root, text="Enregistrer l'image", command=capt
 capture_image_button.grid(row=11, column=8, ipadx=10, ipady=10, sticky=tk.W) 
 video_frame.grid(row=3, column=7, rowspan=8, columnspan=2, sticky=tk.W)
 
+root.protocol("WM_DELETE_WINDOW", window_closing)
 root.mainloop()
 
 
