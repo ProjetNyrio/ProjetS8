@@ -5,7 +5,7 @@ import threading
 import time
 import cv2
 
-class clean_video_canvas(tk.Canvas):
+class video_canvas(tk.Canvas):
 
     def __init__(self, parent):
         self.parent = parent

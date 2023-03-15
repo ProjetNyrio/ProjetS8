@@ -1,7 +1,7 @@
 import time
 import os
 import tkinter as tk
-from clean_video_canvas import *
+from video_canvas import *
 from pyniryo import *
 from tkinter import ttk
 from tkinter import messagebox
@@ -51,7 +51,7 @@ def get_img():
     if (root.video_canvas1 != None):
         root.video_canvas1.stream_on = True
     else :
-        root.video_canvas1 = clean_video_canvas(video_frame)
+        root.video_canvas1 = video_canvas(video_frame)
 
 def capture_img():
     filename = filedialog.asksaveasfile(mode='w', defaultextension=".jpg", filetypes=[("All files", "*.*")])
