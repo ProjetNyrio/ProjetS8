@@ -178,7 +178,9 @@ blank7.grid(row=1, column=0)
 open_camera = ttk.Button(root, text="Open camera stream", command=get_img)
 open_camera.grid(row=2, column=7, ipadx=10, ipady=10, sticky=tk.W)
 
-video_frame = ttk.Frame(root, height=300, width=300)
+video_frame_style=ttk.Style()
+video_frame_style.configure("video.TFrame", background="#4A4A4A")
+video_frame = ttk.Frame(root, style="video.TFrame", height=300, width=300)
 
 end_stream_button = ttk.Button(root, text="End camera stream", command=end_stream)
 end_stream_button.grid(row=11, column=7, ipadx=10, ipady=10, sticky=tk.W)

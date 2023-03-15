@@ -18,7 +18,6 @@ class video_canvas(tk.Canvas):
         self.canvas = tk.Canvas(self.parent, width=300, height=300)
         self.canvas.grid(row=0, column=0)
         self.image_container = self.canvas.create_image(0,0, anchor="nw",image=self.no_image) 
-        self.canvas.configure(bg="#4A4A4A")
         
         self.ros_instance=NiryoRos("10.10.10.10")
         self.vision_instance=Vision(self.ros_instance)
