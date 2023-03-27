@@ -1,5 +1,5 @@
 from tkinter import ttk, END
-from video_label import *
+from video_canvas import *
 from pyniryo import *
 from tkinter import messagebox
 from tkinter import filedialog
@@ -111,7 +111,7 @@ def afficher_deuxieme_fenetre():
         filename = filedialog.asksaveasfile(mode='w', defaultextension=".jpg", filetypes=[("All files", "*.*")])
         if not filename:
             return
-        video_canvas1.image.save(filename)
+        root1.video_canvas1.image.save(filename)
 
     def end_stream():
         root1.video_canvas1.__stop_stream__()

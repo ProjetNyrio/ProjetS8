@@ -57,7 +57,8 @@ def capture_img():
     filename = filedialog.asksaveasfile(mode='w', defaultextension=".jpg", filetypes=[("All files", "*.*")])
     if not filename:
         return
-    video_canvas1.image.save(filename)
+    root.video_canvas1.image.save(filename)
+
 
 def end_stream():
     root.video_canvas1.__stop_stream__()
