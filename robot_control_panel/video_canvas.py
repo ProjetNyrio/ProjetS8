@@ -21,10 +21,10 @@ class video_canvas(tk.Canvas):
         self.image_container = self.canvas.create_image(0,0, anchor="nw",image=self.no_image) 
         try :
             self.ros_instance=NiryoRos("10.10.10.10")
+            self.vision_instance=Vision(self.ros_instance)
+            self.update_image()
         except : 
             showerror(title = "Error", message = "L'instance ROS n'a pas pu être ouverte\nVérifiez votre connexion au wifi du robot et réessayez")
-        self.vision_instance=Vision(self.ros_instance)
-        self.update_image()
         
     photo_img = None
     def update_image(self):

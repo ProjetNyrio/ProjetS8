@@ -61,18 +61,11 @@ def afficher_deuxieme_fenetre():
     if (root.page1 == None):
         root.page1 = tk.Toplevel(root)
         root.page1.title("Panneau de contrôle")
-<<<<<<< HEAD
-        root.page1.geometry("1120x600")
-        style = ttk.Style(root.page1)
-        root.page1.tk.call('source', './Azure-ttk-theme/azure.tcl')
-        root.page1.tk.call('set_theme', 'light')
-=======
         root.page1.geometry("1130x600")
         style = ttk.Style(root.page1)
         root.page1.tk.call('source', './Azure-ttk-theme/azure.tcl')
         root.page1.tk.call('set_theme', 'dark')
         root.page1.option_add('*TkFDialog*foreground','black')
->>>>>>> 20e0863 (correction d'erreurs)
     else : 
         root.page1.deiconify()
 
@@ -137,11 +130,7 @@ def afficher_deuxieme_fenetre():
         root.page1.video_canvas1.__stop_stream__()
 
     def window_closing():
-<<<<<<< HEAD
-        if messagebox.askokcancel("Quit", "Do you want to quit?"):
-=======
         if messagebox.askokcancel("Quit", "Voulez vous quitter?"):
->>>>>>> 20e0863 (correction d'erreurs)
             if (root.page1.video_canvas1 != None):
                 root.page1.video_canvas1.ros_instance.close()
             root.page1.destroy()
@@ -164,11 +153,7 @@ def afficher_deuxieme_fenetre():
     tooltip_hp = Pmw.Balloon(root) #Calling the tooltip
     tooltip_hp.bind(homepose_button,"Ramène le bras et l'outil du robot dans leurs positions initiales")
 
-<<<<<<< HEAD
-    connect_button = ttk.Button(frame1, text="Connect to robot", style="Accent.TButton", command=connect_to_robot)
-=======
     connect_button = ttk.Button(frame1, text="Connection robot", style="Accent.TButton", command=connect_to_robot)
->>>>>>> 20e0863 (correction d'erreurs)
     connect_button.grid(row=0, column=0, ipadx=20, ipady=15)
     tooltip_connect = Pmw.Balloon(root) #Calling the tooltip
     tooltip_connect.bind(connect_button,"Connectez vous au wifi du robot\nCe bouton vous permet d'établir une connexion directe avec un Niryo Ned via la librairie PyNiryo")
@@ -229,39 +214,22 @@ def afficher_deuxieme_fenetre():
             else :
                 messagebox.showerror('Error', 'Commande en dehors de la plage de valeurs acceptées')
     
-<<<<<<< HEAD
-    send_command_button = ttk.Button(root.page1, text="Send command", command=generate_command)
-=======
     send_command_button = ttk.Button(root.page1, text="Envoi commande", command=generate_command)
->>>>>>> 20e0863 (correction d'erreurs)
     send_command_button.grid(row=6, rowspan=4, column=3, ipadx=18, ipady=12, sticky="sw")
     tooltip_1 = Pmw.Balloon(root) #Calling the tooltip
-    tooltip_1.bind(send_command_button,"Assurez-vous d'être connecté à un robot pour envoyer une commande\nRenseignez des valeurs comprises dans [x;y]\nRenseignez 0 si vous souhaitez garder un axe immobile")
+    tooltip_1.bind(send_command_button,"Assurez-vous d'être connecté à un robot pour envoyer une commande\nRenseignez des valeurs comprises dans [-1;1]\nRenseignez 0 si vous souhaitez garder un axe immobile")
 
     blank4 = ttk.Label(root.page1, text="   \n")
     blank4.grid(row=10, column=0)
 
     tools_frame = ttk.Frame(root.page1)
-<<<<<<< HEAD
-    Title3 = ttk.Label(tools_frame, text="Utilisation du gripper")
-=======
     Title3 = ttk.Label(tools_frame, text="Utilisation d'outils")
->>>>>>> 20e0863 (correction d'erreurs)
     Title3.grid(row=0, column=0, columnspan=3, sticky=tk.W)
     Title3.configure(font=("Helvetica", 18, "bold"))
 
     blank5 = ttk.Label(tools_frame, text="   \n")
     blank5.grid(row=1, column=0)
 
-<<<<<<< HEAD
-    grasp_button = ttk.Button(tools_frame, text=" Grasp gripper ", command=grasp_gripper)
-    grasp_button.grid(row=2, column=1, rowspan=2, ipadx=26, ipady=15, sticky="nsew")
-
-    release_button = ttk.Button(tools_frame, text="Release gripper", command=release_gripper)
-    release_button.grid(row=2, column=2, rowspan=2, ipadx=24, ipady=15, sticky="nsew")
-
-    update_tools_button = ttk.Button(tools_frame, text=" Update tools ", command=update_tools)
-=======
     grasp_button = ttk.Button(tools_frame, text=" Attraper ", command=grasp_gripper)
     grasp_button.grid(row=2, column=1, rowspan=2, ipadx=26, ipady=15, sticky="nsew")
 
@@ -269,7 +237,6 @@ def afficher_deuxieme_fenetre():
     release_button.grid(row=2, column=2, rowspan=2, ipadx=24, ipady=15, sticky="nsew")
 
     update_tools_button = ttk.Button(tools_frame, text="Detection outils", command=update_tools)
->>>>>>> 20e0863 (correction d'erreurs)
     update_tools_button.grid(row=2, column=0, rowspan=2, ipadx=28, ipady=15, sticky="nsew")
     tooltip_up = Pmw.Balloon(root) #Calling the tooltip
     tooltip_up.bind(update_tools_button,"Ce bouton permet de réactualiser la détection des outils par le robot\nA utiliser en début de séance et à chaque changement d'outil")
@@ -286,11 +253,7 @@ def afficher_deuxieme_fenetre():
     blank7 = ttk.Label(root.page1, text="   \n")
     blank7.grid(row=1, column=0)
 
-<<<<<<< HEAD
-    open_camera = ttk.Button(root.page1, text="Open camera stream", command=get_img)
-=======
     open_camera = ttk.Button(root.page1, text="Ouvrir stream caméra", command=get_img)
->>>>>>> 20e0863 (correction d'erreurs)
     open_camera.grid(row=2, column=7, ipadx=10, ipady=10, sticky=tk.W)
     tooltip_oc = Pmw.Balloon(root) #Calling the tooltip
     tooltip_oc.bind(open_camera,"Ouvre une instance ROS pour acceder à la caméra du robot connecté")
@@ -299,11 +262,7 @@ def afficher_deuxieme_fenetre():
     video_frame_style.configure("video.TFrame", background="#4A4A4A")
     video_frame = ttk.Frame(root.page1, style="video.TFrame", height=300, width=300)
 
-<<<<<<< HEAD
-    end_stream_button = ttk.Button(root.page1, text="End camera stream", command=end_stream)
-=======
     end_stream_button = ttk.Button(root.page1, text="  Quitter le stream  ", command=end_stream)
->>>>>>> 20e0863 (correction d'erreurs)
     end_stream_button.grid(row=11, column=7, ipadx=10, ipady=10, sticky=tk.W)
 
     capture_image_button = ttk.Button(root.page1, text="Enregistrer l'image", command=capture_img)
@@ -313,11 +272,7 @@ def afficher_deuxieme_fenetre():
 
     video_frame.grid(row=3, column=7, rowspan=8, columnspan=2, sticky=tk.W)
 
-<<<<<<< HEAD
-    button_exit = ttk.Button(root.page1, text="StartPage", command=retour1)
-=======
     button_exit = ttk.Button(root.page1, text="Retour", command=retour1)
->>>>>>> 20e0863 (correction d'erreurs)
     button_exit.grid(row=12, column=8, sticky="se")
     tooltip_ex = Pmw.Balloon(root) #Calling the tooltip
     tooltip_ex.bind(button_exit,"Retour à la page d'accueil")
@@ -344,11 +299,7 @@ def afficher_troisieme_fenetre():
     def retour2():
         root.deiconify()
         root.page2.withdraw()
-<<<<<<< HEAD
-
-=======
         file_path=''
->>>>>>> 20e0863 (correction d'erreurs)
 
     def set_file_path(path):
         global file_path
@@ -381,17 +332,12 @@ def afficher_troisieme_fenetre():
         print(file_path, "file_path")
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
         output, error = process.communicate()
-<<<<<<< HEAD
-        beaa = Image.open("./after.png")
-        after_image = ImageTk.PhotoImage(beaa)
-=======
         if (os.path.exists("./after.png")):
             beaa = Image.open("./after.png")
             after_image = ImageTk.PhotoImage(beaa)
             after_label.config(image=after_image)
             after_label.image = after_image 
         code_output.insert('1.0', output)
->>>>>>> 20e0863 (correction d'erreurs)
         code_output.insert('1.0', error)
 
     def save_image(after_image=None):
@@ -412,20 +358,6 @@ def afficher_troisieme_fenetre():
         before_label.place(x=850, y=400, width=400, height=300)
 
     def Capture():
-<<<<<<< HEAD
-        ros_instance = NiryoRos("10.10.10.10")  # Hotspot
-        vision_instance = Vision(ros_instance)
-        img_c = vision_instance.get_img_compressed()
-        img_raw = pyniryo.uncompress_image(img_c)
-        imageio.imwrite('/home/mateo/Documents/ProjetS8/robot_control_panel/aftr.png', img_raw)
-        im_cv = cv2.imread('/home/mateo/Documents/ProjetS8/robot_control_panel/aftr.png')
-        image_rgb = cv2.cvtColor(im_cv, cv2.COLOR_BGR2RGB)
-        cv2.imwrite('/home/mateo/Documents/ProjetS8/robot_control_panel/afeetr.png', image_rgb)
-        file_path = filedialog.asksaveasfilename(defaultextension=".png",
-                                                 filetypes=[("PNG", ".png"), ("All Files", ".*")])
-        Image.open("/home/mateo/Documents/ProjetS8/robot_control_panel/afeetr.png").save(file_path)
-        ros_instance.close()
-=======
         try :
             ros_instance = NiryoRos("10.10.10.10")  # Hotspot
             vision_instance = Vision(ros_instance)
@@ -442,7 +374,6 @@ def afficher_troisieme_fenetre():
         except :
             showerror(title = "Error", message = "L'instance ROS n'a pas pu être ouverte\nVérifiez votre connexion au wifi du robot et réessayez")
 
->>>>>>> 20e0863 (correction d'erreurs)
 
     def window_closing():
         if messagebox.askokcancel("Quit", "Do you want to quit?"):
@@ -465,34 +396,13 @@ def afficher_troisieme_fenetre():
     code_output = Text(root.page2,font="consolas 15", bg="#323846", fg="lightgreen")
     code_output.place(x=150, y=400, width=680, height=300)
 
-    Open = PhotoImage(file="./open.png")
-    Save = PhotoImage(file="./save.png")
-    Run = PhotoImage(file="./run.png")
-    saveimage = PhotoImage(file="./m_download.png")
-    selectimage = PhotoImage(file="./m_main.png")
-    capture = PhotoImage(file="./ImageC.png")
+    Open = PhotoImage(file="./images_natives/open.png")
+    Save = PhotoImage(file="./images_natives/save.png")
+    Run = PhotoImage(file="./images_natives/run.png")
+    saveimage = PhotoImage(file="./images_natives/m_download.png")
+    selectimage = PhotoImage(file="./images_natives/m_main.png")
+    capture = PhotoImage(file="./images_natives/ImageC.png")
 
-<<<<<<< HEAD
-    open_code_button = Button(root.page2, image=Open, bg="#323846", bd=0, command=open_file)
-    open_code_button.place(x=30, y=30)
-
-    save_code_button = Button(root.page2, image=Save, bg="#323846", bd=0, command=save)
-    save_code_button.place(x=30, y=145)
-    
-
-    Button(root.page2, image=Run, bg="#323846", bd=0, command=run).place(x=30, y=260)
-    
-    
-    save_image_button = Button(root.page2, image=saveimage, bg="#323846", bd=0, command=save_image)
-    save_image_button.place(x=30, y=380)
-    
-
-    select_image_button = Button(root.page2, image=selectimage, bg="#323846", bd=0, command=select_image)
-    select_image_button.place(x=30, y=500)
-    
-
-    capture_button = Button(root.page2, image=capture, bg="#323846", bd=0, command=Capture)
-=======
     open_code_button = Button(root.page2, image=Open, bg="#323846", bd=0, highlightthickness=0, command=open_file)
     open_code_button.place(x=30, y=30)
 
@@ -512,7 +422,6 @@ def afficher_troisieme_fenetre():
     
 
     capture_button = Button(root.page2, image=capture, bg="#323846", bd=0, highlightthickness=0, command=Capture)
->>>>>>> 20e0863 (correction d'erreurs)
     capture_button.place(x=45, y=630)
 
     
@@ -533,24 +442,18 @@ def afficher_troisieme_fenetre():
 
 
 
-<<<<<<< HEAD
-    button2 = ttk.Button(root.page2, text="StartPage", command=retour2)
-=======
     button2 = ttk.Button(root.page2, text="Retour", command=retour2)
->>>>>>> 20e0863 (correction d'erreurs)
     button2.grid(row=2, column=1, padx=50, pady=5)
     
     root.page2.protocol("WM_DELETE_WINDOW", window_closing)
     root.page2.mainloop()
 
 # Ajouter un bouton à la première fenêtre pour afficher la deuxième fenêtre
-bouton = tk.Button(root, text="Contrôle du bras", font=("Arial", 16), fg="#FFFFFF", bg="#003366",
-                   command=afficher_deuxieme_fenetre)
-bouton.pack(pady=10)
+bouton2 = tk.Button(root, text="Contrôle du bras", font=("Arial", 16), fg="#FFFFFF", bg="#003366", command=afficher_deuxieme_fenetre)
+bouton2.pack(pady=10)
 
-bouton1 = tk.Button(root, text="Python IDLE", font=("Arial", 16), fg="#FFFFFF", bg="#003366",
-                    command=afficher_troisieme_fenetre)
-bouton1.pack(pady=10)
+bouton3 = tk.Button(root, text="Python IDLE", font=("Arial", 16), fg="#FFFFFF", bg="#003366", command=afficher_troisieme_fenetre)
+bouton3.pack(pady=10)
 
 # Lancer la boucle principale
 root.mainloop()
