@@ -36,17 +36,21 @@ from PIL import Image, ImageTk
 
 # Créer une fenêtre principale
 root = tk.Tk()
-root.title("Welcome to my app!")
+root.title("Interface de traitement d'image et de contrôle de robot")
 root.geometry("1280x723")
 root.style1 = False
 root.page1 = None
 root.page2 = None
 Pmw.initialise(root)
 # Définir le thème
+root.tk.call('source', './Azure-ttk-theme/azure.tcl')
+root.tk.call('set_theme', 'dark')
+        
 root.configure(bg="#008080")  # Définir la couleur de fond
 
+root.option_add('*TkFDialog*foreground','black')
 # Créer un label avec le message de bienvenue
-welcome_label = tk.Label(root, text="Welcome to my App!", font=("Arial", 24), fg="#FFFFFF", bg="#008080")
+welcome_label = tk.Label(root, text="Traitement d'image et Contrôle de robot bras", font=("Arial", 24), fg="#FFFFFF", bg="#008080")
 welcome_label.pack(pady=20)
 
 # Créer un bouton "Exit"
@@ -63,9 +67,8 @@ def afficher_deuxieme_fenetre():
         root.page1.title("Panneau de contrôle")
         root.page1.geometry("1130x600")
         style = ttk.Style(root.page1)
-        root.page1.tk.call('source', './Azure-ttk-theme/azure.tcl')
-        root.page1.tk.call('set_theme', 'dark')
-        root.page1.option_add('*TkFDialog*foreground','black')
+        #root.page1.tk.call('source', './Azure-ttk-theme/azure.tcl')
+        #root.page1.tk.call('set_theme', 'light')
     else : 
         root.page1.deiconify()
 
@@ -81,7 +84,9 @@ def afficher_deuxieme_fenetre():
     def retour1():
         root.deiconify()
         root.page1.withdraw()
-
+        if hasattr(root.page1.video_canvas1, "ros_instance"):
+            root.page1.video_canvas1.ros_instance.close()
+         
     def close_connection():
         robot.close_connection()
 
@@ -127,7 +132,10 @@ def afficher_deuxieme_fenetre():
         root.page1.video_canvas1.image.save(filename)
 
     def end_stream():
+        if hasattr(root.page1.video_canvas1, "ros_instance"):
+            root.page1.video_canvas1.ros_instance.close()
         root.page1.video_canvas1.__stop_stream__()
+        
 
     def window_closing():
         if messagebox.askokcancel("Quit", "Voulez vous quitter?"):
@@ -300,6 +308,10 @@ def afficher_troisieme_fenetre():
         root.deiconify()
         root.page2.withdraw()
         file_path=''
+        if hasattr(root.page2, "file"):
+            root.page2.file.close()
+            root.page2.file = None
+        
 
     def set_file_path(path):
         global file_path
@@ -307,8 +319,8 @@ def afficher_troisieme_fenetre():
 
     def open_file():
         path = askopenfilename(filetypes=[('Python Files', '*.py')])
-        with open(path, 'r') as file:
-            code = file.read()
+        with open(path, 'r') as root.page2.file:
+            code = root.page2.file.read()
             code_input.delete('1.0', END)
             code_input.insert('1.0', code)
             set_file_path(path)
@@ -318,9 +330,9 @@ def afficher_troisieme_fenetre():
             path = asksaveasfilename(filetypes=[('Python Files', '*.py')])
         else:
             path = file_path
-        with open(path, 'w') as file:
+        with open(path, 'w') as root.page2.file:
             code = code_input.get('1.0', END)
-            file.write(code)
+            root.page2.file.write(code)
             set_file_path(path)
 
     def run():
@@ -329,12 +341,12 @@ def afficher_troisieme_fenetre():
             return 0
         # code = code_input.get("1.0", "end-1c")
         command = f'python3 {file_path}'
-        print(file_path, "file_path")
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
         output, error = process.communicate()
         if (os.path.exists("./after.png")):
             beaa = Image.open("./after.png")
-            after_image = ImageTk.PhotoImage(beaa)
+            resized = beaa.resize((400,350))
+            after_image = ImageTk.PhotoImage(resized)
             after_label.config(image=after_image)
             after_label.image = after_image 
         code_output.insert('1.0', output)
@@ -349,7 +361,8 @@ def afficher_troisieme_fenetre():
     def select_image():
         file_path = tkinter.filedialog.askopenfilename()
         before_img = Image.open(file_path)
-        before_image = ImageTk.PhotoImage(before_img)
+        resized = before_img.resize((400,300))
+        before_image = ImageTk.PhotoImage(resized)
         before_label = tk.Label(root.page2, image=before_image)
         before_label.grid(row=0, column=0)
         before_label.configure(image=before_image)
@@ -449,11 +462,18 @@ def afficher_troisieme_fenetre():
     root.page2.mainloop()
 
 # Ajouter un bouton à la première fenêtre pour afficher la deuxième fenêtre
+
 bouton2 = tk.Button(root, text="Contrôle du bras", font=("Arial", 16), fg="#FFFFFF", bg="#003366", command=afficher_deuxieme_fenetre)
 bouton2.pack(pady=10)
 
 bouton3 = tk.Button(root, text="Python IDLE", font=("Arial", 16), fg="#FFFFFF", bg="#003366", command=afficher_troisieme_fenetre)
 bouton3.pack(pady=10)
+"""
+bouton2 = ttk.Button(root, text="Contrôle du bras", command=afficher_deuxieme_fenetre)
+bouton2.pack(pady=10)
 
+bouton3 = ttk.Button(root, text="Python IDLE", command=afficher_troisieme_fenetre)
+bouton3.pack(pady=10)
+"""
 # Lancer la boucle principale
 root.mainloop()

@@ -12,7 +12,7 @@ class video_canvas(tk.Canvas):
         self.parent = parent
         self.stream_on = True
         self.interval = 5
-        img = Image.open("./images/no_image.jpg")
+        img = Image.open("./images_natives/no_image.jpg")
         resized = img.resize((300,300))
         self.no_image=ImageTk.PhotoImage(resized)
         self.image=None
@@ -40,14 +40,12 @@ class video_canvas(tk.Canvas):
             photo_img=ImageTk.PhotoImage(img_resized)
             self.image=img_resized
             self.canvas.create_image(0,0,anchor="nw", image=photo_img)
+            self.parent.after(self.interval, self.update_image)
 
         else :
             self.canvas.create_image(0,0, anchor="nw", image=self.no_image)
-
-        self.parent.after(self.interval, self.update_image)
+            
 
     def __stop_stream__(self):
-       self.stream_on = False
-
-
+        self.stream_on = False
 
