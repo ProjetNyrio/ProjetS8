@@ -11,7 +11,7 @@ Enfin on trouve deux autres dossiers : images_natives ou sont stockées les imag
 Le panneau de contrôle permet de contrôler les différents axes du robot en leur passant en paramètre une valeur en radians.
 L'interface de traitement d'image quant à elle à besoin que l'on enregistre le code avant chaque éxécution sinon elle ne prend pas en compte les dernier changements.
 
-Enfin l'interface est utilisable avec des thèmes, ne sachant pas nous avions le droit de poster un theme ayant son propre dépot git sur notre dépot nous avons préféré laisser l'utilisateur se charger d'installer le theme si il le souhaite.
+Enfin l'interface est utilisable avec des thèmes, ne sachant pas si nous avions le droit de poster un theme ayant son propre dépot git sur notre dépot nous avons préféré laisser l'utilisateur se charger d'installer le theme si il le souhaite.
 Le thème que nous utilisions était Azure-ttk-theme disponible à l'adresse suivante :
 https://github.com/rdbende/Azure-ttk-theme 
 
