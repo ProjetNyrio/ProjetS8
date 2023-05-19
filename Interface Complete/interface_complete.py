@@ -43,8 +43,10 @@ root.page1 = None
 root.page2 = None
 Pmw.initialise(root)
 # Définir le thème
-root.tk.call('source', './Azure-ttk-theme/azure.tcl')
-root.tk.call('set_theme', 'dark')
+
+if os.path.exists('./Azure-ttk-theme/') :
+    root.tk.call('source', './Azure-ttk-theme/azure.tcl')
+    root.tk.call('set_theme', 'dark')
         
 root.configure(bg="#008080")  # Définir la couleur de fond
 
